@@ -7,8 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "Exosite"
+    "exosite"
   ],
   "author": "teggno",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "tslint": "^3.5.0",
+    "typescript": "^1.8.2"
+  },
+  "dependencies": {
+    "luamin": "^1.0.0",
+    "request": "^2.69.0"
+  }
 }
