@@ -1,0 +1,14 @@
+{
+  "name": "exopublish",
+  "version": "0.0.1",
+  "description": "Publishing tool for Exosite Widget JavsScripts and Lua Scripts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Exosite"
+  ],
+  "author": "teggno",
+  "license": "MIT"
+}
