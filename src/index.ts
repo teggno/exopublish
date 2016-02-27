@@ -4,7 +4,13 @@ import { publishDomainWidget, DomainWidget } from "./domainWidget";
 import { publishPortalWidget, PortalWidget } from "./portalWidget";
 import { publishLua, LuaDeviceScript } from "./lua";
 
-export function publishOne(relativePath: string, script: string, userName: string, password: string): Promise<void> {
+/**
+ * @param relativePath workspace relative path of the script to publish
+ * @param script script code to publish  
+ * @param userName Exosite user name
+ * @param password Exosite password
+ */
+export function publishOne(relativePath: string, script: string|Buffer, userName: string, password: string): Promise<void> {
     return getConfig()
         .then(config => {
             const publishArgs: PublishArgs = {
@@ -16,20 +22,28 @@ export function publishOne(relativePath: string, script: string, userName: strin
                 script: script
             };
 
-            return doStuffWithMapping(
-                config.mapping,
-                relativePath,
-                publishDomainWidget(publishArgs),
-                publishPortalWidget(publishArgs),
-                publishLua(publishArgs)
-            );
+            return ifFound(relativePath, config.mappings)
+                .executeAppropriate(
+                    publishDomainWidget(publishArgs),
+                    publishPortalWidget(publishArgs),
+                    publishLua(publishArgs)
+                );
         });
 }
 
-export function publishDomainWidgets(userName: string, password: string) {
+export function getDomainWidgets(): Promise<string[]> {
+    return getConfig()
+        .then(config => config.mappings.widget.domain.map(w => w.path));
 }
 
-export function publishPortalWidgets(relativePath: string, userName: string, password: string) {
+export function getPortalWidgets(): Promise<string[]> {
+    return getConfig()
+        .then(config => config.mappings.widget.portal.map(w => w.path));
+}
+
+export function getDeviceLuaScripts(): Promise<string[]> {
+    return getConfig()
+        .then(config => config.mappings.lua.device.map(w => w.path));
 }
 
 function getConfig() {
@@ -37,50 +51,48 @@ function getConfig() {
         .then(file => {
             const config = <Config>file.toJSON();
             if (!config.domain) throw new Error("config file must include a \"domain\" property.");
-            if (!config.mapping || !config.mapping) throw new Error("config file must include a \"mapping\".");
+            if (!config.mappings || !config.mappings) throw new Error("config file must include a \"mapping\".");
 
             return config;
         });
 }
 
-function doStuffWithMapping<T>(
-    mappings: Mappings,
-    relativePath: string,
-    domainWidgetHandler: DomainWidgetHandler<T>,
-    portalWidgetHandler: PortalWidgetHandler<T>,
-    luaHandler: LuaHandler<T>) {
+function ifFound(relativePath: string, allMmappings: Mappings) {
+    const domainWidget = findDomainWidget(allMmappings, relativePath);
+    const portalWidget = findPortalWidget(allMmappings, relativePath);
+    const luaScript = findLua(allMmappings, relativePath);
 
-    const domainWidgetMapping = findDomainWidgetMapping(mappings, relativePath);
-    if (domainWidgetMapping) {
-        return domainWidgetHandler(domainWidgetMapping);
-    }
-
-    const portalWidgetMapping = findPortalWidgetMapping(mappings, relativePath);
-    if (portalWidgetMapping) {
-        return portalWidgetHandler(portalWidgetMapping);
-    }
-
-    const luaScriptMapping = findLuaMapping(mappings, relativePath);
-    if (luaScriptMapping) {
-        return luaHandler(luaScriptMapping);
-    }
-
-    throw `Could not find mapping for "${relativePath}"`;
+    if (domainWidget || portalWidget || luaScript)
+        return {
+            executeAppropriate<T>(
+                domainWidgetHandler: DomainWidgetHandler<T>,
+                portalWidgetHandler: PortalWidgetHandler<T>,
+                luaHandler: LuaHandler<T>
+            ) {
+                return domainWidget
+                    ? domainWidgetHandler(domainWidget)
+                    : (portalWidget
+                        ? portalWidgetHandler(portalWidget)
+                        : luaHandler(luaScript));
+            }
+        };
+    else
+        throw `Could not find mapping for "${relativePath}"`;
 }
 
-function findDomainWidgetMapping(mappings: Mappings, relativePath: string) {
+function findDomainWidget(mappings: Mappings, relativePath: string) {
     return mappings && mappings.widget && mappings.widget.domain
         ? mappings.widget.domain.find(mapping => mapping.path === relativePath)
         : null;
 }
 
-function findPortalWidgetMapping(mappings: Mappings, relativePath: string) {
+function findPortalWidget(mappings: Mappings, relativePath: string) {
     return mappings && mappings.widget && mappings.widget.portal
         ? mappings.widget.portal.find(mapping => mapping.path === relativePath)
         : null;
 }
 
-function findLuaMapping(mappings: Mappings, relativePath: string) {
+function findLua(mappings: Mappings, relativePath: string) {
     return mappings && mappings.lua && mappings.lua.device
         ? mappings.lua.device.find(mapping => mapping.path === relativePath)
         : null;
@@ -100,7 +112,7 @@ interface LuaHandler<T> {
 
 interface Config {
     domain: string;
-    mapping: Mappings;
+    mappings: Mappings;
 }
 
 export interface Mappings {
@@ -112,9 +124,3 @@ export interface Mappings {
         portal?: PortalWidget[];
     };
 }
-
-
-
-
-
-

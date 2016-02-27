@@ -25,7 +25,7 @@ export function getDashboard(args: CommonArgs, dashboardId: string): Promise<Exo
         });
 }
 
-export function updateLuaScript(args: CommonArgs, rid: string, script: string): Promise<void> {
+export function updateLuaScript(args: CommonArgs, rid: string, script: string|Buffer): Promise<void> {
     const options = {
         auth: args.account,
         method: "PUT",

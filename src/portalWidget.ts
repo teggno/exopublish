@@ -6,7 +6,7 @@ export function publishPortalWidget(args: PublishArgs) {
         return getDashboard(args, widget.dashboardId)
             .then(dashboard => {
                 const index = findWidgetIndexByTitle(dashboard, widget.widgetTitle);
-                dashboard.config.widgets[index].script = args.script;
+                dashboard.config.widgets[index].script = args.script.toString();
                 updateDashboard(args, widget.dashboardId, { config: dashboard.config });
             });
     };

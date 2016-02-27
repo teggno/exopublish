@@ -6,10 +6,10 @@ export function publishLua(publishArgs: PublishArgs) {
     return (luaScript: LuaDeviceScript) => {
         let script = publishArgs.script;
         if (luaScript.minify === "basic") {
-            script = minifyLarge(publishArgs.script);
+            script = minifyLarge(script.toString());
         }
         else if (luaScript.minify === "full") {
-            script = luamin.minify(script);
+            script = luamin.minify(script.toString());
         }
         return updateLuaScript(publishArgs, luaScript.rid, script);
     };

@@ -4,5 +4,5 @@ export interface PublishArgs {
         userName: string;
         password: string;
     };
-    script: string;
+    script: string|Buffer;
 }
