@@ -115,7 +115,7 @@ interface Config {
     mappings: Mappings;
 }
 
-export interface Mappings {
+interface Mappings {
     lua?: {
         device: LuaDeviceScript[]
     };
