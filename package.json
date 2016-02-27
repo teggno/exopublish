@@ -1,7 +1,12 @@
 {
   "name": "exopublish",
+  "displayName": "Exopublish",
+  "description": "A publishing tool for Exosite Widget JavsScripts and Lua Scripts",
   "version": "0.0.1",
-  "description": "Publishing tool for Exosite Widget JavsScripts and Lua Scripts",
+  "author": {
+    "name": "Christian Bär",
+    "url": "http://blogs.adwise.ch/baer"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,7 +14,6 @@
   "keywords": [
     "exosite"
   ],
-  "author": "teggno",
   "license": "MIT",
   "devDependencies": {
     "tslint": "^3.5.0",
@@ -18,5 +22,13 @@
   "dependencies": {
     "luamin": "^1.0.0",
     "request": "^2.69.0"
+  },
+  "homepage": "https://github.com/teggno/exopublish",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teggno/exopublish.git"
+  },
+  "bugs": {
+    "url": "https://github.com/teggno/exopublish/issues"
   }
 }
