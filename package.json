@@ -1,7 +1,7 @@
 {
   "name": "exopublish",
   "displayName": "Exopublish",
-  "description": "A publishing tool for Exosite Widget JavsScripts and Lua Scripts",
+  "description": "A Publishing tool for Exosite Widget JavaScript and Lua script files.",
   "version": "0.0.1",
   "author": {
     "name": "Christian Bär",

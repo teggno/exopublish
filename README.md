@@ -1,5 +1,5 @@
 # Exopublish
-A Publishing tool for Exosite Widget JavsScripts and Lua Scripts.
+A Publishing tool for Exosite Widget JavaScript and Lua script files.
 
 ## What it does
 Using a config file containing mappings of widget JavaScript or Lua script files to the corresponding Exosite identifiers (e.g. Resource-Id), it can upload the script files to the appropriate location in Exosite.
