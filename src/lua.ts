@@ -55,7 +55,7 @@ function minifyLarge(luaCode: string): string {
 
     const length = luaCode.length;
     let index: number = 0;
-    let result = [];
+    let result: string[] = [];
     for (; index < length; index++) {
         let skipThisChar = false;
         if (isStringLiteralStart()) {

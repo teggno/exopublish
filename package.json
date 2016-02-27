@@ -7,8 +7,12 @@
     "name": "Christian Bär",
     "url": "http://blogs.adwise.ch/baer"
   },
+  "typescript": {
+    "definition": "index.d.ts"
+  },
   "main": "index.js",
   "scripts": {
+    "prepublish": "node ./node_modules/typescript/bin/tsc -p .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

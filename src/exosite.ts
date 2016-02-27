@@ -63,7 +63,7 @@ function getUrl(domain: string, suffix: string) {
     return "https://" + domain + "api/portals/v1/" + suffix;
 }
 
-interface CommonArgs {
+export interface CommonArgs {
     domain: string;
     account: {
         userName: string;
@@ -76,11 +76,11 @@ export interface ExositeDashboard {
     name: string;
     portalId: string;
     config: {
-        widgets: {[id: number]: DashboardWidget}
+        widgets: {[id: number]: ExoisteDashboardWidget}
     };
 }
 
-interface DashboardWidget {
+export interface ExoisteDashboardWidget {
     title: string;
     script: string;
     WidgetScriptID: string;

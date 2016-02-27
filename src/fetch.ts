@@ -1,18 +1,6 @@
 import request = require("request");
 import {clone} from "./utilities";
 
-interface FetchOptions {
-    url: string;
-    baseUrl?: string;
-    auth?: {
-        userName: string;
-        password: string
-    };
-    method?: string;
-    json?: boolean;
-    body?: any;
-}
-
 export default function fetch(options: FetchOptions): Promise<{response: {statusCode: number}, body: string}> {
     const auth = options.auth ? {user: options.auth.userName, pass: options.auth.password} : null;
     const newOptions = <request.OptionsWithUrl>clone(options);
@@ -21,7 +9,7 @@ export default function fetch(options: FetchOptions): Promise<{response: {status
 
     console.log(`Executing ${newOptions.method} to baseUrl ${newOptions.baseUrl || "-" }, url ${newOptions.url || "-"}`);
     return new Promise((resolve, reject) => {
-        const callback = (error, response, body: string) => {
+        const callback = (error: any, response: any, body: string) => {
             if (error) {
                 reject(error);
                 return;
@@ -33,11 +21,23 @@ export default function fetch(options: FetchOptions): Promise<{response: {status
     });
 }
 
+export interface FetchOptions {
+    url: string;
+    baseUrl?: string;
+    auth?: {
+        userName: string;
+        password: string
+    };
+    method?: string;
+    json?: boolean;
+    body?: any;
+}
+
 export function expectStatus200(responseAndBody: {response: any, body: string}): Promise<{response: any, body: string}> {
     return expectStatus(200)(responseAndBody);
 }
 
-interface ResponseAndBody {
+export interface ResponseAndBody {
     response: any;
     body: string;
 }
