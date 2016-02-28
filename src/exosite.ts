@@ -60,7 +60,7 @@ export function updateDashboard(args: CommonArgs, dashboardId: string, data: any
 }
 
 function getUrl(domain: string, suffix: string) {
-    return "https://" + domain + "api/portals/v1/" + suffix;
+    return "https://" + domain + "/api/portals/v1/" + suffix;
 }
 
 export interface CommonArgs {
