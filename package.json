@@ -2,7 +2,7 @@
   "name": "exopublish",
   "displayName": "Exopublish",
   "description": "A Publishing tool for Exosite Widget JavaScript and Lua script files.",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "author": {
     "name": "Christian Bär",
     "url": "http://blogs.adwise.ch/baer"
