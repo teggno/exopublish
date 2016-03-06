@@ -1,12 +1,14 @@
 import fetch, {expectStatus200 } from "./fetch";
 
-export function updateDomainWidgetScript(args: CommonArgs, widgetScriptId: string, data: any): Promise<void> {
+export function updateDomainWidgetScript(args: CommonArgs, widgetScriptId: string, script: string|Buffer): Promise<void> {
     const options = {
         auth: args.account,
         method: "PUT",
         url: getUrl(args.domain, "widget-scripts/" + widgetScriptId),
         json: true,
-        body: data
+        body: {
+            code: script
+        }
     };
     return fetch(options)
         .then(expectStatus200)
