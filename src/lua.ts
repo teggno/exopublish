@@ -11,7 +11,10 @@ export function publishLua(publishArgs: PublishArgs) {
         else if (luaScript.minify === "full") {
             script = luamin.minify(script.toString());
         }
-        return updateLuaScript(publishArgs, luaScript.rid, script);
+        return updateLuaScript(publishArgs, luaScript.rid, script)
+            .then(() => {
+                return script;
+            });
     };
 }
 

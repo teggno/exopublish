@@ -8,7 +8,7 @@ export function configure(config: Config): Exopublish {
     if (!config.mapping || !config.mapping) throw new Error("config file must include a \"mappings\" property");
 
     return {
-        publishOne(relativePath: string, script: string|Buffer, userName: string, password: string): Promise<void> {
+        publishOne(relativePath: string, script: string|Buffer, userName: string, password: string): Promise<string|Buffer> {
             const publishArgs: PublishArgs = {
                 account: {
                     userName: userName,
@@ -125,8 +125,9 @@ export interface Exopublish {
      * @param script script code to publish  
      * @param userName Exosite user name
      * @param password Exosite password
+     * @returns a string of buffer containing the script code that was actually published
      */
-    publishOne(relativePath: string, script: string|Buffer, userName: string, password: string): Promise<void>;
+    publishOne(relativePath: string, script: string|Buffer, userName: string, password: string): Promise<string|Buffer>;
     getDomainWidgets(): string[];
     getPortalWidgets(): string[];
     getDeviceLuaScripts(): string[];

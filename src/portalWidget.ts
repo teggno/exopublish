@@ -7,8 +7,9 @@ export function publishPortalWidget(args: PublishArgs) {
             .then(dashboard => {
                 const index = findWidgetIndexByTitle(dashboard, widget.widgetTitle);
                 dashboard.config.widgets[index].script = args.script.toString();
-                updateDashboard(args, widget.dashboardId, { config: dashboard.config });
-            });
+                return updateDashboard(args, widget.dashboardId, { config: dashboard.config });
+            })
+            .then(() => args.script);
     };
 }
 
